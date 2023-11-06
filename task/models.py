@@ -2,7 +2,7 @@ from django.conf import settings
 from django.db import models
 from django.utils import timezone
 
-class Post(models.Model):
+class Task(models.Model):
 
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
@@ -14,6 +14,6 @@ class Post(models.Model):
 
     published_date = models.DateTimeField(blank=True, null=True)
 
-def __str__(self):
+    def __str__(self):
 
-    return self.title
+        return self.title

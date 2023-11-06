@@ -86,7 +86,7 @@ from django.conf import settings
 from django.db import models
 from django.utils import timezone
 
-class Post(models.Model):
+class Task(models.Model):
 
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
@@ -112,9 +112,9 @@ Se nos creará un directorio migrations
 ## Administación
 Vamos a "task/admin.py" y añadimos lo siguiente
 ```python
-from .models import Post
+from .models import Task
 
-admin.site.register(Post)
+admin.site.register(Task)
 ```
 En la consola de comandos creamos un superadministador con el siguiente comando
 ```bash
@@ -133,6 +133,71 @@ from django.urls import path, include
 
 urlpatterns = [
 path('admin/', admin.site.urls),
-path('', include('blog.urls')),
+path('', include('task.urls')),
 ]
+```
+
+Dentro de task, creamos un archivo llamado "urls.py" con el siguiente contenido
+```python
+from django.urls import path
+
+from . import views
+
+urlpatterns = [
+
+path('', views.task_list, name='tasks_list'),
+
+]
+```
+Nos vamos a "task/views.py" e introducimos el siguiente codigo
+```python
+from django.shortcuts import render
+
+from django.utils import timezone
+
+from .models import Task
+
+def task_list(request):
+
+tasks = task.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
+
+return render(request, 'blog/task_list.html', {'tasks': tasks})
+```
+En el directorio task creamos un directorio "templates" y dentro otro con el nombre "task" dentro de este último el siguiente contenido
+```html
+<body>
+    <div class="page-header">
+        <h1><a href="/">Lista Tareas</a></h1>
+    </div>
+    <div class="content container">
+        <div class="row">
+            <div class="col-md-8">
+                {% block content %}
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+</body>
+```
+Ahora creamos un tasks_list.html con el contenido
+```html
+<div>
+
+    <h1><a href="/">Tareas</a></h1>
+
+</div>
+
+{% for task in tasks %}
+
+<div>
+
+    <p> publicado: {{ Task.published_date }}</p>
+
+    <h2><a href="">{{ Task.title }}</a></h2>
+
+    <p>{{ Task.text|linebreaksbr }}</p>
+
+</div>
+
+{% endfor %}
 ```
