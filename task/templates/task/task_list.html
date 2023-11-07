@@ -1,19 +1,13 @@
 <div>
-
     <h1><a href="/">Tareas</a></h1>
-
 </div>
 
 {% for task in tasks %}
 
 <div>
-
-    <p> publicado: {{ Task.published_date }}</p>
-
-    <h2><a href="">{{ Task.title }}</a></h2>
-
-    <p>{{ Task.text|linebreaksbr }}</p>
-
+    <p> publicado: {{ task.created_date }}</p>
+    <h2><a href="">{{ task.title }}</a></h2>
+    <p>{{ task.text|linebreaksbr }}</p>
 </div>
 
 {% endfor %}
