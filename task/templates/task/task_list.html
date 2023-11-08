@@ -1,13 +1,35 @@
-<div>
-    <h1><a href="/">Tareas</a></h1>
-</div>
 
-{% for task in tasks %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Lista de tareas</title>
+    </head>
+    <body>
+        <div class="page-header">
+            <h1><a href="/">Lista Tareas</a></h1>
+        </div>
+        <div class="tarea">
+            <form action="{% url 'task_list'%}" method="POST">
+                {% csrf_token %}
+                {{ form.as_p}}
+                <button type="submit">Añadir tarea</button>
+            </form>
+        </div>
+        <div class="content container">
+            <div class="row">
+                <div class="col-md-8"> 
+                    <h2>Lista de tareas</h2>
+                    {% for task in tasks %}
+                    <div>
+                        <br>
+                        <h3><a href="">{{ task.title }}</a></h3>
+                        <p>{{ task.text|linebreaksbr }}</p>
+                        <p> publicado: {{ task.created_date }}</p>
+                    </div>
 
-<div>
-    <p> publicado: {{ task.created_date }}</p>
-    <h2><a href="">{{ task.title }}</a></h2>
-    <p>{{ task.text|linebreaksbr }}</p>
-</div>
-
-{% endfor %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
