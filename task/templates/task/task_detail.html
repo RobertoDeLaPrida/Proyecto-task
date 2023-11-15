@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task {{ task.pk }}</title>
+</head>
+<body>
+    <div class="text-center">
+        <h3>{{ task.title }}</h3>
+        <p>{{ task.text|linebreaksbr }}</p>
+        <p> publicado: {{ task.created_date }}</p>
+    </div>
+    <div>
+        <br>
+        <a href="{% url 'task_edit' pk=task.pk %}"><button>Editar</button></a>
+        <a href="{% url 'task_list' %}"><button>Volver a la lista de tareas</button></a>
+    </div>
+</body>
+</html>

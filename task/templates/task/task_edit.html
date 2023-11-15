@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit task {{ task.pk }}</title>
+</head>
+<body>
+    <div class="tarea">
+        <form action="{% url 'task_edit' pk=task.pk %}" method="POST">
+            {% csrf_token %}
+            {{ form.as_p}}
+            <button type="submit">Guardar cambios</button>
+        </form>
+    </div>
+    <div>
+        <br>
+        <a href="{% url 'task_list' %}"><button>Volver sin guardar</button></a>
+    </div>
+</body>
+</html>

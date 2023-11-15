@@ -33,3 +33,37 @@ class TaskList(View):
             form.save()
             return redirect('task_list')
         return render(request, self.nombre_template, {'tasks': Task.objects.all(),'form':form})
+    
+class TaskDetail(View):
+    nombre_template = 'task/task_detail.html'
+    def get(self,request,pk):  
+        task = Task.objects.get(id=pk)
+        return render(request, self.nombre_template, {'task': task})
+    
+class TaskCreate(View):
+    nombre_template = 'task/task_create.html'
+    def get(self,request):
+        form=TaskForm()
+        return render(request, self.nombre_template, {'tasks': Task.objects.all(),'form':form})
+    
+    def post(self,request):
+        form=TaskForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('task_list')
+        return render(request, self.nombre_template, {'tasks': Task.objects.all(),'form':form})
+
+class TaskEdit(View):
+    nombre_template = 'task/task_edit.html'
+    def get(self,request,pk):
+        task=Task.objects.get(id=pk)
+        form=TaskForm(instance=task)
+        return render(request, self.nombre_template, {'task': task,'form':form})
+    
+    def post(self,request,pk):
+        task=Task.objects.get(id=pk)
+        form=TaskForm(request.POST, instance=task)
+        if form.is_valid():
+            form.save()
+            return redirect('task_list')
+        return render(request, self.nombre_template, {'task': task,'form':form})
